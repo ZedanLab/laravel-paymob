@@ -2,8 +2,8 @@
 
 namespace ZedanLab\Paymob\Tests;
 
-use ZedanLab\Paymob\PaymobServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
+use ZedanLab\Paymob\PaymobServiceProvider;
 
 class TestCase extends Orchestra
 {
