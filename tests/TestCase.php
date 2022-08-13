@@ -2,11 +2,14 @@
 
 namespace ZedanLab\Paymob\Tests;
 
+use Illuminate\Foundation\Testing\WithFaker;
 use Orchestra\Testbench\TestCase as Orchestra;
 use ZedanLab\Paymob\PaymobServiceProvider;
 
 class TestCase extends Orchestra
 {
+    use WithFaker;
+
     /**
      * Setup the test environment.
      *

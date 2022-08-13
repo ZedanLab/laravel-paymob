@@ -3,208 +3,102 @@
 namespace ZedanLab\Paymob;
 
 use Closure;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
-use ZedanLab\Paymob\Services\PaymobOptions;
+use Exception;
+use ZedanLab\Paymob\Contracts\PaymobPaymentMethod as PaymentMethodContract;
+use ZedanLab\Paymob\PaymentMethod\PaymobPaymentMethod;
+use ZedanLab\Paymob\Services\PaymobApi;
+use ZedanLab\Paymob\Services\PaymobConfig;
+use ZedanLab\Paymob\Services\PaymobOrder;
 
 class Paymob
 {
     /**
-     * @var \ZedanLab\Paymob\Services\PaymobOptions
+     * @var \ZedanLab\Paymob\Services\PaymobConfig
      */
-    protected $options;
+    protected $config;
 
     /**
-     * @var \Illuminate\Database\Eloquent\Model|\ZedanLab\Paymob\Contracts\ShouldGeneratesUsername
+     * @var \ZedanLab\Paymob\Services\PaymobApi
      */
-    protected $model;
+    protected $api;
 
     /**
-     * @var string
+     * @var \ZedanLab\Paymob\Services\PaymobOrder
      */
-    protected $username;
+    protected $order;
 
     /**
-     * Generate username on create event.
+     * Create a new paymob instance.
      *
-     * @param  \Illuminate\Database\Eloquent\Model $model
-     * @param  string                              $event
+     * @param  \ZedanLab\Paymob\Services\PaymobConfig|array $config
      * @return void
      */
-    public function generateFor(Model $model, string $event)
+    public function __construct(PaymobConfig | array $config)
     {
-        $this->setOptions($model);
-
-        if (! $this->options->getAttribute($event)) {
-            return;
+        if (is_array($config)) {
+            $config = new PaymobConfig($config);
         }
 
-        $this->addUsername();
+        $this->config = $config;
+
+        $this->api = new PaymobApi($this->order());
     }
 
     /**
-     * Adding username field to model.
-     *
-     * @return void
+     * @return \ZedanLab\Paymob\Contracts\PaymobPaymentMethod
      */
-    protected function addUsername()
+    public function payWith(string $method): PaymentMethodContract
     {
-        $this->model->{$this->options->getAttribute('field')} = $this->build($this->model->{$this->options->getAttribute('source')});
+        throw_if(is_null($this->order()), new Exception("You should set the order object first, please use 'makeOrder()' or 'setOrder()' methods."));
+
+        $this->api->setOrder($this->order());
+
+        $payment = PaymobPaymentMethod::driver($method, $this->api);
+
+        $payment->api()
+                ->sendAuthenticationRequest()
+                ->sendOrderRegistrationRequest()
+                ->sendPaymentKeysRequest($method);
+
+        return $payment;
     }
 
     /**
-     * Filling the given model options if the LocalizedUsername method exists.
+     * Return current order.
      *
-     * @param  \Illuminate\Database\Eloquent\Model $model
-     * @return void
+     * @return \ZedanLab\Paymob\Services\PaymobOrder|null
      */
-    protected function setOptions(Model $model)
+    public function order(): ?PaymobOrder
     {
-        $this->model = $model;
-        $this->options = new PaymobOptions($model);
+        return $this->order;
     }
 
     /**
-     * @param  string   $type
-     * @return string
-     */
-    protected function getWord(string $type = 'noun'): string
-    {
-        $type = Str::plural(strtolower($type));
-        $max = count($this->options->getAttribute('dictionary')[$type]) - 1;
-
-        return $this->options->getAttribute('dictionary')[$type][rand(0, $max)];
-    }
-
-    /**
-     * Generate the username.
+     * Making a new paymob order.
      *
-     * @param  string|null $text
-     * @return string
-     */
-    protected function build(?string $text = null): string
-    {
-        if ($text === null) {
-            $text = $this->getWord('adjective') . ' ' . $this->getWord('noun');
-        }
-
-        $this->username = $text;
-
-        $this->toAscii();
-        $this->stripUnwantedCharacters();
-        $this->convertToLowerCase();
-        $this->collapseWhitespace();
-        $this->addSeparator();
-        $this->makeUnique();
-
-        return $this->username;
-    }
-
-    /**
-     * Convert the case of the username.
-     *
-     *
+     * @param  \Closure $callback
      * @return self
      */
-    protected function convertToLowerCase(): self
+    public function makeOrder(Closure $callback): self
     {
-        try {
-            $this->username = Str::lower($this->username);
-        } catch (\BadMethodCallException$e) {
-        }
+        $order = new PaymobOrder($this->config);
+
+        $callback($order);
+
+        $this->order = $order;
 
         return $this;
     }
 
     /**
-     * Remove unwanted characters.
+     * Set paymob order.
      *
+     * @param  \ZedanLab\Paymob\Services\PaymobOrder $order
      * @return self
      */
-    protected function stripUnwantedCharacters(): self
+    public function setOrder(PaymobOrder $order): self
     {
-        $this->username = preg_replace('/[^a-zA-Z\s]/u', '', $this->username);
-
-        return $this;
-    }
-
-    /**
-     * Trim spaces down.
-     *
-     * @return self
-     */
-    protected function collapseWhitespace(): self
-    {
-        $this->username = preg_replace('/\s+/', ' ', trim($this->username));
-
-        return $this;
-    }
-
-    /**
-     * Replaces spaces with a separator.
-     *
-     *
-     * @return self
-     */
-    protected function addSeparator(): self
-    {
-        $this->username = preg_replace('/ /', $this->options->getAttribute('separator'), $this->username);
-
-        return $this;
-    }
-
-    /**
-     * Make the username unique.
-     *
-     * @return self
-     */
-    protected function makeUnique(): self
-    {
-        while (! $this->checkIfUnique()) {
-            /**
-             * @phpstan-ignore-next-line
-             */
-            $this->username .= ($this->model::whereUsernameLike($this->username)->count() + 1) . Str::random(3);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Check if the username is unique.
-     *
-     * @return bool
-     */
-    protected function checkIfUnique(): bool
-    {
-        if (! is_null($checkIfUnique = $this->options->getAttribute('unique'))) {
-            if ($checkIfUnique instanceof Closure) {
-                $isUnique = $checkIfUnique($this->username);
-            }
-
-            // check if unique via model trait
-            elseif (method_exists($this->model, 'isUsernameUnique')) {
-                $isUnique = $this->model::isUsernameUnique($this->username, $this->model);
-            }
-
-            if (! ($isUnique ?? true)) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    /**
-     * Convert text to ascii code.
-     *
-     * @return self
-     */
-    protected function toAscii(): self
-    {
-        if ($this->options->getAttribute('convert_to_ascii')) {
-            $this->username = Str::ascii($this->username);
-        }
+        $this->order = $order;
 
         return $this;
     }
