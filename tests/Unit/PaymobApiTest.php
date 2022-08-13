@@ -5,7 +5,7 @@ use ZedanLab\Paymob\Services\PaymobApi;
 it('sends an authentication request', function () {
     fakeSuccessResponse();
 
-    $accessToken = (new PaymobApi)
+    $accessToken = (new PaymobApi())
         ->setOrder(makeOrder())
         ->sendAuthenticationRequest()
         ->accessToken();
