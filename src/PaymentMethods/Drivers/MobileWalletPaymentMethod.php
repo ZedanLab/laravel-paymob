@@ -56,8 +56,8 @@ class MobileWalletPaymentMethod extends BasePaymentMethod
                 'payment_token' => optional($this->api->order()->get('paymob_payment_keys'))->token,
             ]
         )->onError(function (Response $response) {
-                throw $response->toException();
-            });
+            throw $response->toException();
+        });
 
         $this->api->order()->set('paymob_pay', $response->object());
     }
