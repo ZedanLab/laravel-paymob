@@ -4,15 +4,14 @@ use Illuminate\Support\Facades\Http;
 
 use function Pest\Faker\faker;
 
-use ZedanLab\Paymob\Paymob;
+use ZedanLab\Paymob\Facades\Paymob;
 use ZedanLab\Paymob\Services\PaymobConfig;
 use ZedanLab\Paymob\Services\PaymobOrder;
 
 it('register a new order', function () {
     fakeSuccessResponse();
 
-    $paymentLink = (new Paymob(config('paymob')))
-        ->setOrder(makeOrder())
+    $paymentLink = Paymob::setOrder(makeOrder())
         ->payWith('card')
         ->paymentLink();
 

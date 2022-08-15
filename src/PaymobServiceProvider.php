@@ -7,6 +7,9 @@ use Spatie\LaravelPackageTools\PackageServiceProvider;
 
 class PaymobServiceProvider extends PackageServiceProvider
 {
+    /**
+     * @param Package $package
+     */
     public function configurePackage(Package $package): void
     {
         /*
@@ -19,5 +22,12 @@ class PaymobServiceProvider extends PackageServiceProvider
             ->hasRoute('web')
             ->hasMigrations('create_paymob_transactions_table')
             ->hasConfigFile();
+    }
+
+    public function packageRegistered()
+    {
+        $config = $this->app->make('config')->get('paymob');
+
+        $this->app->bind('laravel-paymob', fn () => new Paymob($config));
     }
 }

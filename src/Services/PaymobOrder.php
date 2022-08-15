@@ -2,6 +2,7 @@
 
 namespace ZedanLab\Paymob\Services;
 
+use Exception;
 use Illuminate\Config\Repository;
 use Illuminate\Database\Eloquent\Model;
 
@@ -120,7 +121,7 @@ class PaymobOrder extends Repository
 
     /**
      * @param  Model|array|string|int $payer
-     * @param  string $payerType
+     * @param  string                 $payerType
      * @return self
      */
     public function payer(Model | array | string | int $payer, string $payerType = null): self
@@ -146,7 +147,7 @@ class PaymobOrder extends Repository
 
     /**
      * @param  Model|array|string|int $payable
-     * @param  string $payableType
+     * @param  string                 $payableType
      * @return self
      */
     public function payable(Model | array | string | int $payable, string $payableType = null): self
@@ -211,6 +212,12 @@ class PaymobOrder extends Repository
     public function items(...$items): self
     {
         $items = is_array(func_get_arg(0)) ? func_get_arg(0) : func_get_args();
+
+        array_walk($items, function ($item) {
+            throw_unless($item instanceof PaymobOrderItem, new Exception("Paymob order item should be instance of '\PaymobOrderItem\PaymobOrderItem::class'."));
+
+            return $item->toArray();
+        });
 
         $this->set('items', $items);
 
