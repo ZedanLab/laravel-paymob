@@ -102,7 +102,8 @@ it('can set or get additional data attribute', function () {
 });
 
 it('can set or get items attribute', function () {
-    $items = [
+    $order = new PaymobOrder();
+    $order->items([
         PaymobOrderItem::make(
             name:"Item 1",
             amount_cents:"20000",
@@ -115,14 +116,24 @@ it('can set or get items attribute', function () {
             description:"Item ID: 2",
             quantity:"1"
         ),
-    ];
+    ]);
 
-    $order = new PaymobOrder();
-    $order->items($items);
+    expect($order->get('items') === [
+        PaymobOrderItem::make(
+            name:"Item 1",
+            amount_cents:"20000",
+            description:"Item ID: 1",
+            quantity:"2"
+        )->toArray(),
+        PaymobOrderItem::make(
+            name:"Item 2",
+            amount_cents:"100000",
+            description:"Item ID: 2",
+            quantity:"1"
+        )->toArray(),
+    ])->toBeTrue();
 
-    expect($order->get('items') === $items)->toBeTrue();
-
-    $items = [
+    $order->items(
         PaymobOrderItem::make(
             name:"Item 1",
             amount_cents:"20000",
@@ -141,9 +152,26 @@ it('can set or get items attribute', function () {
             description:"Item ID: 3",
             quantity:"10"
         ),
-    ];
+    );
 
-    $order->items(...$items);
-
-    expect($order->get('items') === $items)->toBeTrue();
+    expect($order->get('items') === [
+        PaymobOrderItem::make(
+            name:"Item 1",
+            amount_cents:"20000",
+            description:"Item ID: 1",
+            quantity:"2"
+        )->toArray(),
+        PaymobOrderItem::make(
+            name:"Item 2",
+            amount_cents:"100000",
+            description:"Item ID: 2",
+            quantity:"1"
+        )->toArray(),
+        PaymobOrderItem::make(
+            name:"Item 3",
+            amount_cents:"5000",
+            description:"Item ID: 3",
+            quantity:"10"
+        )->toArray(),
+    ])->toBeTrue();
 });

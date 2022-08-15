@@ -213,11 +213,11 @@ class PaymobOrder extends Repository
     {
         $items = is_array(func_get_arg(0)) ? func_get_arg(0) : func_get_args();
 
-        array_walk($items, function ($item) {
+        $items = array_map(function ($item) {
             throw_unless($item instanceof PaymobOrderItem, new Exception("Paymob order item should be instance of '\PaymobOrderItem\PaymobOrderItem::class'."));
 
             return $item->toArray();
-        });
+        }, $items);
 
         $this->set('items', $items);
 
