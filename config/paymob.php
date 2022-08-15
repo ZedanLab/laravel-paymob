@@ -6,9 +6,14 @@ return [
     'currency'        => env('PAYMOB_CURRENCY', 'EGP'),
 
     'payment_methods' => [
-        'card' => [
+        'card'          => [
             'integration_id' => env('PAYMOB_CARD_INTEGRATION_ID'),
             'iframe_id'      => env('PAYMOB_CARD_IFRAME_ID'),
+            'iframe_link'    => 'https://accept.paymobsolutions.com/api/acceptance/iframes/{:iframe_id}?payment_token={:payment_key_token}',
+        ],
+        'mobile_wallet' => [
+            'integration_id' => env('PAYMOB_MOBILE_WALLET_INTEGRATION_ID'),
+            'iframe_id'      => env('PAYMOB_MOBILE_WALLET_IFRAME_ID'),
             'iframe_link'    => 'https://accept.paymobsolutions.com/api/acceptance/iframes/{:iframe_id}?payment_token={:payment_key_token}',
         ],
     ],
@@ -27,5 +32,6 @@ return [
         'authentication_request' => 'https://accept.paymobsolutions.com/api/auth/tokens',
         'order_registration'     => 'https://accept.paymob.com/api/ecommerce/orders',
         'payment_keys'           => 'https://accept.paymobsolutions.com/api/acceptance/payment_keys',
+        'pay'                    => 'https://accept.paymobsolutions.com/api/acceptance/payments/pay',
     ],
 ];

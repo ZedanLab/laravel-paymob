@@ -14,11 +14,6 @@ class BasePaymentMethod implements PaymobPaymentMethod
     protected $api;
 
     /**
-     * @var \ZedanLab\Paymob\Services\PaymobOrder
-     */
-    protected $order;
-
-    /**
      * @param \ZedanLab\Paymob\Services\PaymobApi $api
      */
     public function __construct(PaymobApi $api)
