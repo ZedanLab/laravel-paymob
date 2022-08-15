@@ -1,31 +1,10 @@
 <?php
 
-use Illuminate\Support\Facades\Http;
-
 use function Pest\Faker\faker;
 
 use ZedanLab\Paymob\Paymob;
 use ZedanLab\Paymob\Services\PaymobConfig;
 use ZedanLab\Paymob\Services\PaymobOrder;
-
-// it('can authenticate and get access token if credentials is correct', function () {
-//     fakeSuccessResponse();
-//     $paymob = new Paymob(config('paymob'));
-
-//     expect($paymob->accessToken() === getApiKey());
-// });
-
-// it('throws an exception if credentials are incorrect', function () {
-//     Http::fake([
-//         config('paymob.endpoints.authentication_request') => Http::response([
-//             'detail' => 'incorrect credentials',
-//         ], 403),
-//     ]);
-
-//     new Paymob(config('paymob'));
-
-// })->expectErrorMessage('HTTP request returned status code 403:
-// {"detail":"incorrect credentials"}');
 
 it('register a new order', function () {
     fakeSuccessResponse();
@@ -42,7 +21,7 @@ it('register a new order', function () {
 });
 
 /**
- * @param PaymobOrder $order
+ * @return PaymobOrder
  */
 function makeOrder(): PaymobOrder
 {
@@ -56,112 +35,117 @@ function makeOrder(): PaymobOrder
         'phone_number' => faker()->phoneNumber,
     ];
 
-    return $order->deliveryNeeded(isDeliveryNeeded())
-                 ->billingData(...$billingData)
-                 ->amount(1000)
-                 ->currency('EGP');
+    $order = $order->deliveryNeeded(isDeliveryNeeded())
+                   ->billingData(...$billingData)
+                   ->payable(['id' => 50, 'type' => 'App\\Models\\Product'])
+                   ->payer(['id' => 5, 'type' => 'App\\Models\\User'])
+                //    ->referenceId('2323 23232a3')
+                   ->amount(33000)
+                   ->currency('EGP');
+
+    return $order;
 }
 
 function fakeSuccessResponse()
 {
-    Http::fake([
-        config('paymob.endpoints.authentication_request') => Http::response([
-            'token' => getApiKey(),
-        ], 200),
-        config('paymob.endpoints.order_registration') => Http::response([
-            'id' => 61747044,
-            'created_at' => '2022-08-10T14:47:40.146080',
-            'delivery_needed' => isDeliveryNeeded(),
-            'merchant' => [
-                'id' => 111111111,
-                'created_at' => '2022-07-24T12:07:49.478575',
-                'phones' => [
-                    '01272496660',
-                ],
-                'company_emails' => [
-                    'aa@aa.com',
-                ],
-                'company_name' => 'Company Name',
-                'state' => '',
-                'country' => 'EGY',
-                'city' => 'cairo',
-                'postal_code' => '',
-                'street' => '',
-            ],
-            'collector' => null,
-            'amount_cents' => 232323,
-            'shipping_data' => null,
-            'currency' => 'EGP',
-            'is_payment_locked' => false,
-            'is_return' => false,
-            'is_cancel' => false,
-            'is_returned' => false,
-            'is_canceled' => false,
-            'merchant_order_id' => 'a323223',
-            'wallet_notification' => null,
-            'paid_amount_cents' => 0,
-            'notify_user_with_email' => false,
-            'items' => [],
-            'order_url' => 'https://accept.paymobsolutions.com/standalone?ref=i_djRmL1JCRWxCOVlleEt1WjZzekxKQT09X0o1bmVXMEx6NXVQTTJaeCtzN1lYd2c9PQ==',
-            'commission_fees' => 0,
-            'delivery_fees_cents' => 0,
-            'delivery_vat_cents' => 0,
-            'payment_method' => 'tbc',
-            'merchant_staff_tag' => null,
-            'api_source' => 'OTHER',
-            'data' => [],
-            'token' => 'djRmL1JCRWxCOVlleEt1WjZzekxKQT09X0o1bmVXMEx6NXVQTTJaeCtzN1lYd2c9PQ==',
-            'url' => 'https://accept.paymobsolutions.com/standalone?ref=i_djRmL1JCRWxCOVlleEt1WjZzekxKQT09X0o1bmVXMEx6NXVQTTJaeCtzN1lYd2c9PQ==',
-        ], 200),
-        config('paymob.endpoints.payment_keys') => Http::response(
-            [
-                'id' => 61747044,
-                'created_at' => '2022-08-10T14:47:40.146080',
-                'delivery_needed' => false,
-                'merchant' => [
-                    'id' => 111111111,
-                    'created_at' => '2022-07-24T12:07:49.478575',
-                    'phones' => [
-                        '01272496660',
-                    ],
-                    'company_emails' => [
-                        'aa@aa.com',
-                    ],
-                    'company_name' => 'Company Name',
-                    'state' => '',
-                    'country' => 'EGY',
-                    'city' => 'cairo',
-                    'postal_code' => '',
-                    'street' => '',
-                ],
-                'collector' => null,
-                'amount_cents' => 232323,
-                'shipping_data' => null,
-                'currency' => 'EGP',
-                'is_payment_locked' => false,
-                'is_return' => false,
-                'is_cancel' => false,
-                'is_returned' => false,
-                'is_canceled' => false,
-                'merchant_order_id' => 'a323223',
-                'wallet_notification' => null,
-                'paid_amount_cents' => 0,
-                'notify_user_with_email' => false,
-                'items' => [],
-                'order_url' => 'https://accept.paymobsolutions.com/standalone?ref=i_djRmL1JCRWxCOVlleEt1WjZzekxKQT09X0o1bmVXMEx6NXVQTTJaeCtzN1lYd2c9PQ==',
-                'commission_fees' => 0,
-                'delivery_fees_cents' => 0,
-                'delivery_vat_cents' => 0,
-                'payment_method' => 'tbc',
-                'merchant_staff_tag' => null,
-                'api_source' => 'OTHER',
-                'data' => [],
-                'token' => 'djRmL1JCRWxCOVlleEt1WjZzekxKQT09X0o1bmVXMEx6NXVQTTJaeCtzN1lYd2c9PQ==',
-                'url' => 'https://accept.paymobsolutions.com/standalone?ref=i_djRmL1JCRWxCOVlleEt1WjZzekxKQT09X0o1bmVXMEx6NXVQTTJaeCtzN1lYd2c9PQ==',
-            ],
-            200
-        ),
-    ]);
+    // Http::fake([
+    //     config('paymob.endpoints.authentication_request') => Http::response([
+    //         'token' => getApiKey(),
+    //     ], 200),
+    //     config('paymob.endpoints.order_registration') => Http::response([
+    //         'id' => 61747044,
+    //         'created_at' => '2022-08-10T14:47:40.146080',
+    //         'delivery_needed' => isDeliveryNeeded(),
+    //         'merchant' => [
+    //             'id' => 111111111,
+    //             'created_at' => '2022-07-24T12:07:49.478575',
+    //             'phones' => [
+    //                 '01272496660',
+    //             ],
+    //             'company_emails' => [
+    //                 'aa@aa.com',
+    //             ],
+    //             'company_name' => 'Company Name',
+    //             'state' => '',
+    //             'country' => 'EGY',
+    //             'city' => 'cairo',
+    //             'postal_code' => '',
+    //             'street' => '',
+    //         ],
+    //         'collector' => null,
+    //         'amount_cents' => 232323,
+    //         'shipping_data' => null,
+    //         'currency' => 'EGP',
+    //         'is_payment_locked' => false,
+    //         'is_return' => false,
+    //         'is_cancel' => false,
+    //         'is_returned' => false,
+    //         'is_canceled' => false,
+    //         'merchant_order_id' => 'a323223',
+    //         'wallet_notification' => null,
+    //         'paid_amount_cents' => 0,
+    //         'notify_user_with_email' => false,
+    //         'items' => [],
+    //         'order_url' => 'https://accept.paymobsolutions.com/standalone?ref=i_djRmL1JCRWxCOVlleEt1WjZzekxKQT09X0o1bmVXMEx6NXVQTTJaeCtzN1lYd2c9PQ==',
+    //         'commission_fees' => 0,
+    //         'delivery_fees_cents' => 0,
+    //         'delivery_vat_cents' => 0,
+    //         'payment_method' => 'tbc',
+    //         'merchant_staff_tag' => null,
+    //         'api_source' => 'OTHER',
+    //         'data' => [],
+    //         'token' => 'djRmL1JCRWxCOVlleEt1WjZzekxKQT09X0o1bmVXMEx6NXVQTTJaeCtzN1lYd2c9PQ==',
+    //         'url' => 'https://accept.paymobsolutions.com/standalone?ref=i_djRmL1JCRWxCOVlleEt1WjZzekxKQT09X0o1bmVXMEx6NXVQTTJaeCtzN1lYd2c9PQ==',
+    //     ], 200),
+    //     config('paymob.endpoints.payment_keys') => Http::response(
+    //         [
+    //             'id' => 61747044,
+    //             'created_at' => '2022-08-10T14:47:40.146080',
+    //             'delivery_needed' => false,
+    //             'merchant' => [
+    //                 'id' => 111111111,
+    //                 'created_at' => '2022-07-24T12:07:49.478575',
+    //                 'phones' => [
+    //                     '01272496660',
+    //                 ],
+    //                 'company_emails' => [
+    //                     'aa@aa.com',
+    //                 ],
+    //                 'company_name' => 'Company Name',
+    //                 'state' => '',
+    //                 'country' => 'EGY',
+    //                 'city' => 'cairo',
+    //                 'postal_code' => '',
+    //                 'street' => '',
+    //             ],
+    //             'collector' => null,
+    //             'amount_cents' => 232323,
+    //             'shipping_data' => null,
+    //             'currency' => 'EGP',
+    //             'is_payment_locked' => false,
+    //             'is_return' => false,
+    //             'is_cancel' => false,
+    //             'is_returned' => false,
+    //             'is_canceled' => false,
+    //             'merchant_order_id' => 'a323223',
+    //             'wallet_notification' => null,
+    //             'paid_amount_cents' => 0,
+    //             'notify_user_with_email' => false,
+    //             'items' => [],
+    //             'order_url' => 'https://accept.paymobsolutions.com/standalone?ref=i_djRmL1JCRWxCOVlleEt1WjZzekxKQT09X0o1bmVXMEx6NXVQTTJaeCtzN1lYd2c9PQ==',
+    //             'commission_fees' => 0,
+    //             'delivery_fees_cents' => 0,
+    //             'delivery_vat_cents' => 0,
+    //             'payment_method' => 'tbc',
+    //             'merchant_staff_tag' => null,
+    //             'api_source' => 'OTHER',
+    //             'data' => [],
+    //             'token' => 'djRmL1JCRWxCOVlleEt1WjZzekxKQT09X0o1bmVXMEx6NXVQTTJaeCtzN1lYd2c9PQ==',
+    //             'url' => 'https://accept.paymobsolutions.com/standalone?ref=i_djRmL1JCRWxCOVlleEt1WjZzekxKQT09X0o1bmVXMEx6NXVQTTJaeCtzN1lYd2c9PQ==',
+    //         ],
+    //         200
+    //     ),
+    // ]);
 }
 
 function getApiKey()

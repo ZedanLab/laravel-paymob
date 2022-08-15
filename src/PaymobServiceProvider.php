@@ -16,6 +16,8 @@ class PaymobServiceProvider extends PackageServiceProvider
          */
         $package
             ->name('laravel-paymob')
+            ->hasRoute('web')
+            ->hasMigrations('create_paymob_transactions_table')
             ->hasConfigFile();
     }
 }

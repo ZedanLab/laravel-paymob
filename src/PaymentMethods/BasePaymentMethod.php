@@ -1,6 +1,6 @@
 <?php
 
-namespace ZedanLab\Paymob\PaymentMethod;
+namespace ZedanLab\Paymob\PaymentMethods;
 
 use Illuminate\Http\RedirectResponse;
 use ZedanLab\Paymob\Contracts\PaymobPaymentMethod;

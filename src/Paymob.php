@@ -5,7 +5,7 @@ namespace ZedanLab\Paymob;
 use Closure;
 use Exception;
 use ZedanLab\Paymob\Contracts\PaymobPaymentMethod as PaymentMethodContract;
-use ZedanLab\Paymob\PaymentMethod\PaymobPaymentMethod;
+use ZedanLab\Paymob\PaymentMethods\PaymobPaymentMethod;
 use ZedanLab\Paymob\Services\PaymobApi;
 use ZedanLab\Paymob\Services\PaymobConfig;
 use ZedanLab\Paymob\Services\PaymobOrder;

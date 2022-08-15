@@ -1,10 +1,10 @@
 <?php
 
-namespace ZedanLab\Paymob\PaymentMethod\Drivers;
+namespace ZedanLab\Paymob\PaymentMethods\Drivers;
 
 use Exception;
 use Illuminate\Http\RedirectResponse;
-use ZedanLab\Paymob\PaymentMethod\BasePaymentMethod;
+use ZedanLab\Paymob\PaymentMethods\BasePaymentMethod;
 
 class CardPaymentMethod extends BasePaymentMethod
 {

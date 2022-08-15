@@ -138,7 +138,7 @@ class PaymobApi
             'integration_id' => $this->order->config()->get("payment_methods.{$paymentMethod}.integration_id"),
         ];
 
-        $data = [...$defaults, ...Arr::only($this->order->all(), $required + $optional)];
+        $data = [...$defaults, ...Arr::only($this->order->all(), array_merge($required, $optional))];
 
         throw_if(! Arr::has($data, $required), new Exception("Paymob Order: please check and set the following attributes values: " . implode(', ', $required)));
 
@@ -154,11 +154,13 @@ class PaymobApi
             'auth_token',
             'delivery_needed',
             'amount_cents',
+            'billing_data',
         ];
 
         $optional = [
             'merchant_order_id',
             'items',
+            'data',
             'shipping_data',
             'shipping_details',
             'currency',
@@ -170,7 +172,7 @@ class PaymobApi
             'auth_token' => $this->accessToken(),
         ];
 
-        $data = [...$defaults, ...Arr::only($this->order->all(), $required + $optional)];
+        $data = [...$defaults, ...Arr::only($this->order->all(), array_merge($required, $optional))];
 
         throw_if(! Arr::has($data, $required), new Exception("Paymob Order: please check and set the following attributes values" . implode(', ', $required)));
 

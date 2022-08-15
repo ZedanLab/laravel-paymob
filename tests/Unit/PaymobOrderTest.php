@@ -31,11 +31,11 @@ it('can set or get amount_cents attribute', function () {
     $order = new PaymobOrder();
     $order->amount(1000);
 
-    expect($order->get('amount_cents') === floatval(1000 * 100))->toBeTrue();
+    expect($order->get('amount_cents') === intval(1000 * 100))->toBeTrue();
 
     $order->amount(30000, true);
 
-    expect($order->get('amount_cents') === floatval(30000))->toBeTrue();
+    expect($order->get('amount_cents') === intval(30000))->toBeTrue();
 });
 
 it('can set or get currency attribute', function () {
@@ -70,6 +70,33 @@ it('can set or get additional data attribute', function () {
             'slug' => faker()->slug,
         ],
     ]);
+
+    $data['payer'] = null;
+    $data['payable'] = null;
+
+    expect($order->get('data') === $data)->toBeTrue();
+
+    $order = new PaymobOrder();
+
+    $order->payable(50, 'App\\Models\\Product')
+        ->payer(5, 'App\\Models\\User')
+        ->additionalData($data = [
+            'name' => faker()->name,
+            'reference' => [
+                'email' => faker()->email,
+                'slug' => faker()->slug,
+            ],
+        ]);
+
+    $data['payer'] = [
+        'id' => 5,
+        'type' => 'App\\Models\\User',
+    ];
+
+    $data['payable'] = [
+        'id' => 50,
+        'type' => 'App\\Models\\Product',
+    ];
 
     expect($order->get('data') === $data)->toBeTrue();
 });

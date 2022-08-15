@@ -3,7 +3,7 @@
 namespace ZedanLab\Paymob\Services;
 
 use Illuminate\Config\Repository;
-use ZedanLab\Paymob\Paymob;
+use Illuminate\Database\Eloquent\Model;
 
 class PaymobOrder extends Repository
 {
@@ -119,6 +119,58 @@ class PaymobOrder extends Repository
     }
 
     /**
+     * @param  Model|array|string|int $payer
+     * @param  string $payerType
+     * @return self
+     */
+    public function payer(Model | array | string | int $payer, string $payerType = null): self
+    {
+        if ($payer instanceof Model) {
+            $payer = [
+                'id' => $payer->getKey(),
+                'type' => get_class($payer),
+            ];
+        }
+
+        if (! is_array($payer)) {
+            $payer = [
+                'id' => $payer,
+                'type' => $payerType,
+            ];
+        }
+
+        $this->set('data.payer', $payer);
+
+        return $this;
+    }
+
+    /**
+     * @param  Model|array|string|int $payable
+     * @param  string $payableType
+     * @return self
+     */
+    public function payable(Model | array | string | int $payable, string $payableType = null): self
+    {
+        if ($payable instanceof Model) {
+            $payable = [
+                'id' => $payable->getKey(),
+                'type' => get_class($payable),
+            ];
+        }
+
+        if (! is_array($payable)) {
+            $payable = [
+                'id' => $payable,
+                'type' => $payableType,
+            ];
+        }
+
+        $this->set('data.payable', $payable);
+
+        return $this;
+    }
+
+    /**
      * Set order notify_user_with_email.
      *
      * @param  bool   $enabled
@@ -139,7 +191,13 @@ class PaymobOrder extends Repository
      */
     public function additionalData(array $data): self
     {
+        $payer = $this->get('data.payer');
+        $payable = $this->get('data.payable');
+
         $this->set('data', $data);
+
+        $this->set('data.payer', $payer);
+        $this->set('data.payable', $payable);
 
         return $this;
     }
@@ -147,7 +205,7 @@ class PaymobOrder extends Repository
     /**
      * Set order items
      *
-     * @param  array $items
+     * @param  array  $items
      * @return self
      */
     public function items(...$items): self
@@ -172,7 +230,7 @@ class PaymobOrder extends Repository
             $amount *= 100;
         }
 
-        $this->set('amount_cents', $amount);
+        $this->set('amount_cents', intval($amount));
 
         return $this;
     }
