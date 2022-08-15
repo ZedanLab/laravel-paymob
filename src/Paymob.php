@@ -45,9 +45,13 @@ class Paymob
     }
 
     /**
+     * Proceed the payment with the given driver.
+     *
+     * @param  string                                           $method
+     * @param  array                                            $paymentMethodData
      * @return \ZedanLab\Paymob\Contracts\PaymobPaymentMethod
      */
-    public function payWith(string $method): PaymentMethodContract
+    public function payWith(string $method, array $paymentMethodData = []): PaymentMethodContract
     {
         throw_if(is_null($this->order()), new Exception("You should set the order object first, please use 'makeOrder()' or 'setOrder()' methods."));
 
@@ -58,6 +62,7 @@ class Paymob
         $payment->api()
                 ->sendAuthenticationRequest()
                 ->sendOrderRegistrationRequest()
+                ->setPaymentMethodData($paymentMethodData)
                 ->sendPaymentKeysRequest($method);
 
         return $payment;

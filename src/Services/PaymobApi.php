@@ -3,11 +3,12 @@
 namespace ZedanLab\Paymob\Services;
 
 use Exception;
+use Illuminate\Config\Repository;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 
-class PaymobApi
+class PaymobApi extends Repository
 {
     /**
      * @var \ZedanLab\Paymob\Services\PaymobOrder|null
@@ -188,6 +189,19 @@ class PaymobApi
     public function setOrder(PaymobOrder $order): self
     {
         $this->order = $order;
+
+        return $this;
+    }
+
+    /**
+     * Set paymob payment method data.
+     *
+     * @param  array $data
+     * @return self
+     */
+    public function setPaymentMethodData(array $data): self
+    {
+        $this->set('payment_method_data', $data);
 
         return $this;
     }

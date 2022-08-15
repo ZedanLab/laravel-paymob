@@ -13,8 +13,6 @@ return [
         ],
         'mobile_wallet' => [
             'integration_id' => env('PAYMOB_MOBILE_WALLET_INTEGRATION_ID'),
-            'iframe_id'      => env('PAYMOB_MOBILE_WALLET_IFRAME_ID'),
-            'iframe_link'    => 'https://accept.paymobsolutions.com/api/acceptance/iframes/{:iframe_id}?payment_token={:payment_key_token}',
         ],
     ],
 

@@ -11,6 +11,7 @@ it('returns the payment link', function () {
         ->setOrder(makeOrder())
         ->sendAuthenticationRequest()
         ->sendOrderRegistrationRequest()
+        ->setPaymentMethodData(['wallet_identifier' => '01010101010'])
         ->sendPaymentKeysRequest('mobile_wallet');
 
     $paymentMethod = PaymobPaymentMethod::driver('mobile_wallet', $api);
@@ -25,6 +26,7 @@ it('redirects to the payment link', function () {
         ->setOrder(makeOrder())
         ->sendAuthenticationRequest()
         ->sendOrderRegistrationRequest()
+        ->setPaymentMethodData(['wallet_identifier' => '01010101010'])
         ->sendPaymentKeysRequest('mobile_wallet');
 
     $redirect = PaymobPaymentMethod::driver('mobile_wallet', $api)->redirect();
