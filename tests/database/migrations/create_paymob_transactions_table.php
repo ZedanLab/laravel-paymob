@@ -6,8 +6,7 @@ use Illuminate\Support\Facades\Schema;
 use ZedanLab\Paymob\Enums\PaymobTransactionStatus;
 use ZedanLab\Paymob\Enums\PaymobTransactionType;
 
-return new class extends Migration
-{
+return new class () extends Migration {
     public function up()
     {
         Schema::create('paymob_transactions', function (Blueprint $table) {

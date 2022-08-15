@@ -21,7 +21,7 @@ class TestCase extends Orchestra
     {
         parent::setUp();
 
-        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations/create_paymob_transactions_table.php');
+        $this->loadMigrationsFrom(__DIR__ . '/database/migrations/create_paymob_transactions_table.php');
     }
 
     /**
