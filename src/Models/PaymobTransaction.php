@@ -3,6 +3,8 @@
 namespace ZedanLab\Paymob\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use ZedanLab\Paymob\Enums\PaymobTransactionType;
+use ZedanLab\Paymob\Enums\PaymobTransactionStatus;
 
 /**
  * \ZedanLab\Paymob\Models\PaymobTransaction
@@ -56,7 +58,9 @@ class PaymobTransaction extends Model
      * @var array<string, string>
      */
     protected $casts = [
-        'data' => 'object',
+        'data'   => 'object',
+        'status' => PaymobTransactionStatus::class,
+        'type'   => PaymobTransactionType::class,
     ];
 
     /**
