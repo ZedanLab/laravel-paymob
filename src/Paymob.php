@@ -128,7 +128,8 @@ class Paymob
         };
 
         $defaultOptions = [
-            'prefix' => 'paymob',
+            'as' => 'paymob.',
+            'middleware' => ['web'],
         ];
 
         $options = array_merge($defaultOptions, $options);

@@ -2,6 +2,7 @@
 
 namespace ZedanLab\Paymob\Tests;
 
+use Illuminate\Foundation\Bootstrap\LoadEnvironmentVariables;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Orchestra\Testbench\TestCase as Orchestra;
@@ -37,5 +38,21 @@ class TestCase extends Orchestra
             PaymobServiceProvider::class,
             AppServiceProvider::class,
         ];
+    }
+
+    /**
+     * Define environment setup.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     * @return void
+     */
+    protected function getEnvironmentSetUp($app)
+    {
+        if (! file_exists($envPath = __DIR__.'/App')) {
+        }
+
+        $app->useEnvironmentPath($envPath);
+        $app->bootstrapWith([LoadEnvironmentVariables::class]);
+        parent::getEnvironmentSetUp($app);
     }
 }
