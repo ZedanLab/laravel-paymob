@@ -4,13 +4,13 @@ namespace ZedanLab\Paymob;
 
 use Closure;
 use Exception;
-use Illuminate\Support\Facades\Route;
-use ZedanLab\Paymob\Services\PaymobApi;
-use ZedanLab\Paymob\Services\PaymobOrder;
-use ZedanLab\Paymob\Services\PaymobConfig;
 use Illuminate\Contracts\Foundation\CachesRoutes;
-use ZedanLab\Paymob\PaymentMethods\PaymobPaymentMethod;
+use Illuminate\Support\Facades\Route;
 use ZedanLab\Paymob\Contracts\PaymobPaymentMethod as PaymentMethodContract;
+use ZedanLab\Paymob\PaymentMethods\PaymobPaymentMethod;
+use ZedanLab\Paymob\Services\PaymobApi;
+use ZedanLab\Paymob\Services\PaymobConfig;
+use ZedanLab\Paymob\Services\PaymobOrder;
 
 class Paymob
 {

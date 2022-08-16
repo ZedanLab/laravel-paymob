@@ -2,8 +2,8 @@
 
 namespace ZedanLab\Paymob\Tests\App\Providers;
 
-use ZedanLab\Paymob\Paymob;
 use Illuminate\Support\ServiceProvider;
+use ZedanLab\Paymob\Paymob;
 
 class AppServiceProvider extends ServiceProvider
 {

@@ -2,10 +2,10 @@
 
 namespace ZedanLab\Paymob\Tests;
 
-use ZedanLab\Paymob\PaymobServiceProvider;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Orchestra\Testbench\TestCase as Orchestra;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use ZedanLab\Paymob\PaymobServiceProvider;
 use ZedanLab\Paymob\Tests\App\Providers\AppServiceProvider;
 
 class TestCase extends Orchestra

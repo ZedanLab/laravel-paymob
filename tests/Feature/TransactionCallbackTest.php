@@ -3,7 +3,6 @@
 use function Pest\Laravel\get;
 use function Pest\Laravel\post;
 
-use Illuminate\Support\Facades\Artisan;
 use ZedanLab\Paymob\Models\PaymobTransaction;
 
 it('can handle the transaction processed callback', function () {
