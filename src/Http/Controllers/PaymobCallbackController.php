@@ -25,7 +25,7 @@ class PaymobCallbackController extends Controller
 
         $response->save();
 
-        return $this->redirectTo(true);
+        return $this->redirectTo(true, $response);
     }
 
     /**
@@ -41,16 +41,17 @@ class PaymobCallbackController extends Controller
             return $this->redirectTo(false);
         }
 
-        return $this->redirectTo(true);
+        return $this->redirectTo(true, $response);
     }
 
     /**
      * Redirect to payment status.
      *
-     * @param  bool                                $status
+     * @param  \ZedanLab\Paymob\Services\PaymobResponse|\ZedanLab\Paymob\Services\PaymobProcessed $response
+     * @param  bool                                                                               $status
      * @return \Illuminate\Http\RedirectResponse
      */
-    protected function redirectTo(bool $status)
+    protected function redirectTo(bool $status, PaymobResponse | PaymobProcessed $response = null)
     {
         $status = $status ? 'success' : 'failed';
 
