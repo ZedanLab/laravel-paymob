@@ -94,19 +94,19 @@ class PaymobProcessed extends Repository
      */
     public function getType(): string
     {
-        if (boolval($this->get('obj.is_auth'))) {
+        if (filter_var($this->get('obj.is_auth'), FILTER_VALIDATE_BOOLEAN)) {
             return PaymobTransactionType::AUTHORIZE;
         }
 
-        if (boolval($this->get('obj.is_capture'))) {
+        if (filter_var($this->get('obj.is_capture'), FILTER_VALIDATE_BOOLEAN)) {
             return PaymobTransactionType::CAPTURE;
         }
 
-        if (boolval($this->get('obj.is_void'))) {
+        if (filter_var($this->get('obj.is_void'), FILTER_VALIDATE_BOOLEAN)) {
             return PaymobTransactionType::VOID;
         }
 
-        if (boolval($this->get('obj.is_standalone_payment'))) {
+        if (filter_var($this->get('obj.is_standalone_payment'), FILTER_VALIDATE_BOOLEAN)) {
             return PaymobTransactionType::STANDALONE;
         }
 
@@ -124,23 +124,23 @@ class PaymobProcessed extends Repository
             'amount_cents' => $this->get('obj.amount_cents'),
             'created_at' => $this->get('obj.created_at'),
             'currency' => $this->get('obj.currency'),
-            'error_occured' => boolval($this->get('obj.error_occured')) ? 'true' : 'false',
-            'has_parent_transaction' => boolval($this->get('obj.has_parent_transaction')) ? 'true' : 'false',
+            'error_occured' => filter_var($this->get('obj.error_occured'), FILTER_VALIDATE_BOOLEAN) ? 'true' : 'false',
+            'has_parent_transaction' => filter_var($this->get('obj.has_parent_transaction'), FILTER_VALIDATE_BOOLEAN) ? 'true' : 'false',
             'id' => $this->get('obj.id'),
             'integration_id' => $this->get('obj.integration_id'),
-            'is_3d_secure' => boolval($this->get('obj.is_3d_secure')) ? 'true' : 'false',
-            'is_auth' => boolval($this->get('obj.is_auth')) ? 'true' : 'false',
-            'is_capture' => boolval($this->get('obj.is_capture')) ? 'true' : 'false',
-            'is_refunded' => boolval($this->get('obj.is_refunded')) ? 'true' : 'false',
-            'is_standalone_payment' => boolval($this->get('obj.is_standalone_payment')) ? 'true' : 'false',
-            'is_voided' => boolval($this->get('obj.is_voided')) ? 'true' : 'false',
+            'is_3d_secure' => filter_var($this->get('obj.is_3d_secure'), FILTER_VALIDATE_BOOLEAN) ? 'true' : 'false',
+            'is_auth' => filter_var($this->get('obj.is_auth'), FILTER_VALIDATE_BOOLEAN) ? 'true' : 'false',
+            'is_capture' => filter_var($this->get('obj.is_capture'), FILTER_VALIDATE_BOOLEAN) ? 'true' : 'false',
+            'is_refunded' => filter_var($this->get('obj.is_refunded'), FILTER_VALIDATE_BOOLEAN) ? 'true' : 'false',
+            'is_standalone_payment' => filter_var($this->get('obj.is_standalone_payment'), FILTER_VALIDATE_BOOLEAN) ? 'true' : 'false',
+            'is_voided' => filter_var($this->get('obj.is_voided'), FILTER_VALIDATE_BOOLEAN) ? 'true' : 'false',
             'order.id' => $this->get('obj.order.id'),
             'owner' => $this->get('obj.owner'),
-            'pending' => boolval($this->get('obj.pending')) ? 'true' : 'false',
+            'pending' => filter_var($this->get('obj.pending'), FILTER_VALIDATE_BOOLEAN) ? 'true' : 'false',
             'source_data.pan' => $this->get('obj.source_data.pan'),
             'source_data.sub_type' => $this->get('obj.source_data.sub_type'),
             'source_data.type' => $this->get('obj.source_data.type'),
-            'success' => boolval($this->get('obj.success')) ? 'true' : 'false',
+            'success' => filter_var($this->get('obj.success'), FILTER_VALIDATE_BOOLEAN) ? 'true' : 'false',
         ];
 
         ksort($hmacData);

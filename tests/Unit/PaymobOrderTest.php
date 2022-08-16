@@ -9,11 +9,11 @@ it('can set or get delivery_needed attribute', function () {
     $order = new PaymobOrder();
     $order->deliveryNeeded(true);
 
-    expect(boolval($order->get('delivery_needed')) === true)->toBeTrue();
+    expect(filter_var($order->get('delivery_needed'), FILTER_VALIDATE_BOOLEAN) === true)->toBeTrue();
 
     $order->deliveryNeeded(false);
 
-    expect(boolval($order->get('delivery_needed')) === false)->toBeTrue();
+    expect(filter_var($order->get('delivery_needed'), FILTER_VALIDATE_BOOLEAN) === false)->toBeTrue();
 });
 
 it('can set or get merchant_order_id attribute', function () {
@@ -53,11 +53,11 @@ it('can set or get notify_user_with_email attribute', function () {
     $order = new PaymobOrder();
     $order->notifyUserWithEmail(true);
 
-    expect(boolval($order->get('notify_user_with_email')) === true)->toBeTrue();
+    expect(filter_var($order->get('notify_user_with_email'), FILTER_VALIDATE_BOOLEAN) === true)->toBeTrue();
 
     $order->notifyUserWithEmail(false);
 
-    expect(boolval($order->get('notify_user_with_email')) === false)->toBeTrue();
+    expect(filter_var($order->get('notify_user_with_email'), FILTER_VALIDATE_BOOLEAN) === false)->toBeTrue();
 });
 
 it('can set or get additional data attribute', function () {

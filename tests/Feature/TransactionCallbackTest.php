@@ -3,6 +3,7 @@
 use function Pest\Laravel\get;
 use function Pest\Laravel\post;
 
+use Illuminate\Support\Facades\Artisan;
 use ZedanLab\Paymob\Models\PaymobTransaction;
 
 it('can handle the transaction processed callback', function () {
@@ -11,14 +12,14 @@ it('can handle the transaction processed callback', function () {
         true
     );
 
-    post(route('paymob.callbacks.transactionProcessed'), $data);
+    post(route('paymob.callbacks.transaction.processed'), $data);
 
     expect(PaymobTransaction::wherePaymobId(52195232)->exists())->toBeTrue();
 });
 
 it('can handle the transaction response callback', function () {
     $data = json_decode(
-        stripslashes('{"updated_at":"2022-08-15T19:44:20.023486","source_data_type":"wallet","merchant_commission":"0","has_parent_transaction":"false","data_message":"Transaction has been completed successfully.","owner":"438020","order":"62677967","is_capture":"false","is_auth":"false","source_data_sub_type":"wallet","is_voided":"false","is_refund":"false","is_3d_secure":"false","is_standalone_payment":"true","id":"52243909","is_refunded":"false","currency":"EGP","error_occured":"false","is_void":"false","refunded_amount_cents":"0","created_at":"2022-08-15T19:43:57.948583","captured_amount":"0","amount_cents":"25760","source_data_pan":"01010101010","integration_id":"2438611","success":"true","profile_id":"245593","txn_response_code":"200","pending":"false","hmac":"bd7058bc99aa49549aa754740cf9a20219f0d6500725ce3be39661a50e0e200b38842643a719ecaaac24fd38f46618c3568118a635ddadd2d8bf7d4e4f9210e9"}'),
+        stripslashes('{"source_data_type":"wallet","owner":"438020","is_voided":"false","refunded_amount_cents":"0","is_auth":"false","updated_at":"2022-08-16T11:15:07.025511","created_at":"2022-08-16T11:14:55.521348","is_refunded":"false","id":"52337134","merchant_commission":"0","captured_amount":"0","pending":"false","txn_response_code":"200","currency":"EGP","profile_id":"245593","success":"true","is_3d_secure":"false","error_occured":"false","is_refund":"false","order":"62780968","has_parent_transaction":"false","hmac":"84224546d338ebf0a5cf02f6df4580a2bc5829b61531b291273a730af9abe4581e5810cc9ec292d688531126449ce3fb19b94131d308cde2abcc7707167e68d2","is_capture":"false","data_message":"Transaction has been completed successfully.","source_data_sub_type":"wallet","is_standalone_payment":"true","integration_id":"2438611","source_data_pan":"01010101010","amount_cents":"44960","is_void":"false"}'),
         true
     );
 

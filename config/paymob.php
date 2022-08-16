@@ -1,5 +1,6 @@
 <?php
 // config for ZedanLab/Paymob
+
 return [
     'api_key'         => env('PAYMOB_API_KEY'),
     'hmac_secret'     => env('PAYMOB_HMAC_SECRET'),
@@ -17,8 +18,16 @@ return [
     ],
 
     'callbacks'       => [
-        'transaction_processed_route' => 'payments/callback',
-        'transaction_response_route'  => 'payments/callback',
+        'transaction_processed_route' => [
+            'uri'    => 'payments/callback',
+            'action' => [\ZedanLab\Paymob\Http\Controllers\PaymobCallbackController::class, 'transactionProcessed'],
+            'as' => 'transaction.processed',
+        ],
+        'transaction_response_route'  => [
+            'uri'    => 'payments/callback',
+            'action' => [\ZedanLab\Paymob\Http\Controllers\PaymobCallbackController::class, 'transactionResponse'],
+            'as' => 'transaction.response',
+        ],
     ],
 
     'redirects'       => [

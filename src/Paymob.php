@@ -4,11 +4,13 @@ namespace ZedanLab\Paymob;
 
 use Closure;
 use Exception;
-use ZedanLab\Paymob\Contracts\PaymobPaymentMethod as PaymentMethodContract;
-use ZedanLab\Paymob\PaymentMethods\PaymobPaymentMethod;
+use Illuminate\Support\Facades\Route;
 use ZedanLab\Paymob\Services\PaymobApi;
-use ZedanLab\Paymob\Services\PaymobConfig;
 use ZedanLab\Paymob\Services\PaymobOrder;
+use ZedanLab\Paymob\Services\PaymobConfig;
+use Illuminate\Contracts\Foundation\CachesRoutes;
+use ZedanLab\Paymob\PaymentMethods\PaymobPaymentMethod;
+use ZedanLab\Paymob\Contracts\PaymobPaymentMethod as PaymentMethodContract;
 
 class Paymob
 {
@@ -106,5 +108,33 @@ class Paymob
         $this->order = $order;
 
         return $this;
+    }
+
+    /**
+     * Binds the Paymob callback routes into the controller.
+     *
+     * @param  callable|null $callback
+     * @param  array         $options
+     * @return void
+     */
+    public static function routes($callback = null, array $options = [])
+    {
+        if (app() instanceof CachesRoutes && app()->routesAreCached()) {
+            return;
+        }
+
+        $callback = $callback ?: function (RouteRegistrar $router) {
+            $router->all();
+        };
+
+        $defaultOptions = [
+            'prefix' => 'paymob',
+        ];
+
+        $options = array_merge($defaultOptions, $options);
+
+        Route::group($options, function ($router) use ($callback) {
+            $callback(new RouteRegistrar($router));
+        });
     }
 }
