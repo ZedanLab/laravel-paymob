@@ -78,11 +78,11 @@ class PaymobProcessed extends Repository
      */
     public function getStatus(): string
     {
-        if (boolval($this->get('obj.pending'))) {
+        if (filter_var($this->get('obj.pending'), FILTER_VALIDATE_BOOLEAN)) {
             return PaymobTransactionStatus::PENDING;
         }
 
-        return boolval($this->get('obj.success'))
+        return filter_var($this->get('obj.success'), FILTER_VALIDATE_BOOLEAN)
         ? PaymobTransactionStatus::SUCCESS
         : PaymobTransactionStatus::DECLINED;
     }

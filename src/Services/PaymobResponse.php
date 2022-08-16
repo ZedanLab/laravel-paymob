@@ -3,8 +3,8 @@
 namespace ZedanLab\Paymob\Services;
 
 use Illuminate\Config\Repository;
-use ZedanLab\Paymob\Enums\PaymobTransactionStatus;
 use ZedanLab\Paymob\Enums\PaymobTransactionType;
+use ZedanLab\Paymob\Enums\PaymobTransactionStatus;
 
 class PaymobResponse extends Repository
 {
@@ -34,11 +34,11 @@ class PaymobResponse extends Repository
      */
     public function getStatus(): string
     {
-        if (boolval($this->get('pending'))) {
+        if (filter_var($this->get('pending'), FILTER_VALIDATE_BOOLEAN)) {
             return PaymobTransactionStatus::PENDING;
         }
 
-        return boolval($this->get('success'))
+        return filter_var($this->get('success'), FILTER_VALIDATE_BOOLEAN)
         ? PaymobTransactionStatus::SUCCESS
         : PaymobTransactionStatus::DECLINED;
     }
@@ -77,26 +77,26 @@ class PaymobResponse extends Repository
     protected function buildHmacData(): string
     {
         $hmacData = [
-            'amount_cents' => $this->get('amount_cents'),
-            'created_at' => $this->get('created_at'),
-            'currency' => $this->get('currency'),
-            'error_occured' => boolval($this->get('error_occured')) ? 'true' : 'false',
+            'amount_cents'           => $this->get('amount_cents'),
+            'created_at'             => $this->get('created_at'),
+            'currency'               => $this->get('currency'),
+            'error_occured'          => boolval($this->get('error_occured')) ? 'true' : 'false',
             'has_parent_transaction' => boolval($this->get('has_parent_transaction')) ? 'true' : 'false',
-            'id' => $this->get('id'),
-            'integration_id' => $this->get('integration_id'),
-            'is_3d_secure' => boolval($this->get('is_3d_secure')) ? 'true' : 'false',
-            'is_auth' => boolval($this->get('is_auth')) ? 'true' : 'false',
-            'is_capture' => boolval($this->get('is_capture')) ? 'true' : 'false',
-            'is_refunded' => boolval($this->get('is_refunded')) ? 'true' : 'false',
-            'is_standalone_payment' => boolval($this->get('is_standalone_payment')) ? 'true' : 'false',
-            'is_voided' => boolval($this->get('is_voided')) ? 'true' : 'false',
-            'order' => $this->get('order'),
-            'owner' => $this->get('owner'),
-            'pending' => boolval($this->get('pending')) ? 'true' : 'false',
-            'source_data_pan' => $this->get('source_data_pan'),
-            'source_data_sub_type' => $this->get('source_data_sub_type'),
-            'source_data_type' => $this->get('source_data_type'),
-            'success' => boolval($this->get('success')) ? 'true' : 'false',
+            'id'                     => $this->get('id'),
+            'integration_id'         => $this->get('integration_id'),
+            'is_3d_secure'           => boolval($this->get('is_3d_secure')) ? 'true' : 'false',
+            'is_auth'                => boolval($this->get('is_auth')) ? 'true' : 'false',
+            'is_capture'             => boolval($this->get('is_capture')) ? 'true' : 'false',
+            'is_refunded'            => boolval($this->get('is_refunded')) ? 'true' : 'false',
+            'is_standalone_payment'  => boolval($this->get('is_standalone_payment')) ? 'true' : 'false',
+            'is_voided'              => boolval($this->get('is_voided')) ? 'true' : 'false',
+            'order'                  => $this->get('order'),
+            'owner'                  => $this->get('owner'),
+            'pending'                => boolval($this->get('pending')) ? 'true' : 'false',
+            'source_data_pan'        => $this->get('source_data_pan'),
+            'source_data_sub_type'   => $this->get('source_data_sub_type'),
+            'source_data_type'       => $this->get('source_data_type'),
+            'success'                => boolval($this->get('success')) ? 'true' : 'false',
         ];
 
         ksort($hmacData);

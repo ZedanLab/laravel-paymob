@@ -31,7 +31,7 @@ class MobileWalletPaymentMethod extends BasePaymentMethod
             throw new Exception('Payment keys request should called first.');
         }
 
-        if ($walletIdentifier = is_null($this->api->get('payment_method_data.wallet_identifier'))) {
+        if (is_null($walletIdentifier = $this->api->get('payment_method_data.wallet_identifier'))) {
             throw new Exception("wallet_identifier should be defind, e.g. payWith('mobile_wallet', ['wallet_identifier' => '010xxxxxxxx'])... OR \$api->setPaymentMethodData(['wallet_identifier' => '010xxxxxxxx'])");
         }
 
