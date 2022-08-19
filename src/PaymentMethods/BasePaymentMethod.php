@@ -4,17 +4,17 @@ namespace ZedanLab\Paymob\PaymentMethods;
 
 use Illuminate\Http\RedirectResponse;
 use ZedanLab\Paymob\Contracts\PaymobPaymentMethod;
-use ZedanLab\Paymob\Services\PaymobApi;
+use ZedanLab\Paymob\Services\Payments\PaymobApi;
 
-class BasePaymentMethod implements PaymobPaymentMethod
+abstract class BasePaymentMethod implements PaymobPaymentMethod
 {
     /**
-     * @var \ZedanLab\Paymob\Services\PaymobApi
+     * @var \ZedanLab\Paymob\Services\Payments\PaymobApi
      */
     protected $api;
 
     /**
-     * @param \ZedanLab\Paymob\Services\PaymobApi $api
+     * @param \ZedanLab\Paymob\Services\Payments\PaymobApi $api
      */
     public function __construct(PaymobApi $api)
     {
@@ -22,7 +22,7 @@ class BasePaymentMethod implements PaymobPaymentMethod
     }
 
     /**
-     * @return \ZedanLab\Paymob\Services\PaymobApi
+     * @return \ZedanLab\Paymob\Services\Payments\PaymobApi
      */
     public function api(): PaymobApi
     {

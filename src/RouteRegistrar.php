@@ -42,10 +42,10 @@ class RouteRegistrar
      */
     public function processedCallback()
     {
-        $this->router->group(['as' => config('paymob.callbacks.transaction_processed_route.as')], function (Router $router) {
+        $this->router->group(['as' => config('paymob.payments.callbacks.transaction_processed_route.as')], function (Router $router) {
             $router->post(
-                config('paymob.callbacks.transaction_processed_route.uri'),
-                config('paymob.callbacks.transaction_processed_route.action')
+                config('paymob.payments.callbacks.transaction_processed_route.uri'),
+                config('paymob.payments.callbacks.transaction_processed_route.action')
             );
         });
     }
@@ -57,10 +57,10 @@ class RouteRegistrar
      */
     public function responseCallback()
     {
-        $this->router->group(['as' => config('paymob.callbacks.transaction_response_route.as')], function (Router $router) {
+        $this->router->group(['as' => config('paymob.payments.callbacks.transaction_response_route.as')], function (Router $router) {
             $router->get(
-                config('paymob.callbacks.transaction_response_route.uri'),
-                config('paymob.callbacks.transaction_response_route.action')
+                config('paymob.payments.callbacks.transaction_response_route.uri'),
+                config('paymob.payments.callbacks.transaction_response_route.action')
             );
         });
     }

@@ -1,6 +1,6 @@
 <?php
 
-use ZedanLab\Paymob\Services\PaymobApi;
+use ZedanLab\Paymob\Services\Payments\PaymobApi;
 
 it('sends an authentication request', function () {
     fakeSuccessResponse();

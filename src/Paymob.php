@@ -8,31 +8,31 @@ use Illuminate\Contracts\Foundation\CachesRoutes;
 use Illuminate\Support\Facades\Route;
 use ZedanLab\Paymob\Contracts\PaymobPaymentMethod as PaymentMethodContract;
 use ZedanLab\Paymob\PaymentMethods\PaymobPaymentMethod;
-use ZedanLab\Paymob\Services\PaymobApi;
-use ZedanLab\Paymob\Services\PaymobConfig;
-use ZedanLab\Paymob\Services\PaymobOrder;
+use ZedanLab\Paymob\Services\Payments\PaymobApi;
+use ZedanLab\Paymob\Services\Payments\PaymobConfig;
+use ZedanLab\Paymob\Services\Payments\PaymobOrder;
 
 class Paymob
 {
     /**
-     * @var \ZedanLab\Paymob\Services\PaymobConfig
+     * @var \ZedanLab\Paymob\Services\Payments\PaymobConfig
      */
     protected $config;
 
     /**
-     * @var \ZedanLab\Paymob\Services\PaymobApi
+     * @var \ZedanLab\Paymob\Services\Payments\PaymobApi
      */
     protected $api;
 
     /**
-     * @var \ZedanLab\Paymob\Services\PaymobOrder
+     * @var \ZedanLab\Paymob\Services\Payments\PaymobOrder
      */
     protected $order;
 
     /**
      * Create a new paymob instance.
      *
-     * @param  \ZedanLab\Paymob\Services\PaymobConfig|array $config
+     * @param  \ZedanLab\Paymob\Services\Payments\PaymobConfig|array $config
      * @return void
      */
     public function __construct(PaymobConfig | array $config)
@@ -73,7 +73,7 @@ class Paymob
     /**
      * Return current order.
      *
-     * @return \ZedanLab\Paymob\Services\PaymobOrder|null
+     * @return \ZedanLab\Paymob\Services\Payments\PaymobOrder|null
      */
     public function order(): ?PaymobOrder
     {
@@ -100,7 +100,7 @@ class Paymob
     /**
      * Set paymob order.
      *
-     * @param  \ZedanLab\Paymob\Services\PaymobOrder $order
+     * @param  \ZedanLab\Paymob\Services\Payments\PaymobOrder $order
      * @return self
      */
     public function setOrder(PaymobOrder $order): self

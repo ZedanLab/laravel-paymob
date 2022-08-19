@@ -13,7 +13,7 @@ return new class extends Migration
         Schema::create('paymob_transactions', function (Blueprint $table) {
             $table->id();
 
-            $table->unsignedBigInteger('paymob_id');
+            $table->unsignedBigInteger('paymob_id')->unique();
             $table->string('hmac');
             $table->json('data');
 

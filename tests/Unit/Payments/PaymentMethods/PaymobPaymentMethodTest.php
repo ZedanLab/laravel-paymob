@@ -3,7 +3,7 @@
 use ZedanLab\Paymob\Contracts\PaymobPaymentMethod as ContractsPaymobPaymentMethod;
 use ZedanLab\Paymob\PaymentMethods\BasePaymentMethod;
 use ZedanLab\Paymob\PaymentMethods\PaymobPaymentMethod;
-use ZedanLab\Paymob\Services\PaymobApi;
+use ZedanLab\Paymob\Services\Payments\PaymobApi;
 
 it('returns the given driver instance', function () {
     fakeSuccessResponse();

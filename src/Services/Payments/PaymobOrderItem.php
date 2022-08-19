@@ -1,6 +1,6 @@
 <?php
 
-namespace ZedanLab\Paymob\Services;
+namespace ZedanLab\Paymob\Services\Payments;
 
 use Illuminate\Contracts\Support\Arrayable;
 
@@ -54,7 +54,7 @@ class PaymobOrderItem implements Arrayable
      * @param  string                                      $amount_cents
      * @param  string                                      $description
      * @param  string                                      $quantity
-     * @return \ZedanLab\Paymob\Services\PaymobOrderItem
+     * @return \ZedanLab\Paymob\Services\Payments\PaymobOrderItem
      */
     public static function make(
         string $name,

@@ -1,6 +1,6 @@
 <?php
 
-namespace ZedanLab\Paymob\Services;
+namespace ZedanLab\Paymob\Services\Payments;
 
 use Exception;
 use Illuminate\Config\Repository;
@@ -9,14 +9,14 @@ use Illuminate\Database\Eloquent\Model;
 class PaymobOrder extends Repository
 {
     /**
-     * @var \ZedanLab\Paymob\Services\PaymobConfig
+     * @var \ZedanLab\Paymob\Services\Payments\PaymobConfig
      */
     protected $config;
 
     /**
      * Create a new paymob instance.
      *
-     * @param  \ZedanLab\Paymob\Services\PaymobConfig $config
+     * @param  \ZedanLab\Paymob\Services\Payments\PaymobConfig $config
      * @return void
      */
     public function __construct(PaymobConfig $config = null)
@@ -268,7 +268,7 @@ class PaymobOrder extends Repository
     /**
      * Return order's config.
      *
-     * @return \ZedanLab\Paymob\Services\PaymobConfig|null
+     * @return \ZedanLab\Paymob\Services\Payments\PaymobConfig|null
      */
     public function config(): ?PaymobConfig
     {

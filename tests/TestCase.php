@@ -35,23 +35,27 @@ class TestCase extends Orchestra
     protected function getPackageProviders($app)
     {
         return [
-            PaymobServiceProvider::class,
             AppServiceProvider::class,
+            PaymobServiceProvider::class,
         ];
     }
 
     /**
      * Define environment setup.
      *
-     * @param  \Illuminate\Foundation\Application  $app
+     * @param  \Illuminate\Foundation\Application $app
      * @return void
      */
     protected function getEnvironmentSetUp($app)
     {
-        if (! file_exists($envPath = __DIR__.'/App')) {
+        $envPath = __DIR__ . '/App//';
+
+        if (! file_exists($envPath . '.env')) {
+            copy($envPath . '.env.example', $envPath . '.env');
         }
 
         $app->useEnvironmentPath($envPath);
+
         $app->bootstrapWith([LoadEnvironmentVariables::class]);
         parent::getEnvironmentSetUp($app);
     }

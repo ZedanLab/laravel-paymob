@@ -5,8 +5,8 @@ namespace ZedanLab\Paymob\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use ZedanLab\Paymob\Enums\PaymobTransactionStatus;
-use ZedanLab\Paymob\Services\PaymobProcessed;
-use ZedanLab\Paymob\Services\PaymobResponse;
+use ZedanLab\Paymob\Services\Payments\PaymobProcessed;
+use ZedanLab\Paymob\Services\Payments\PaymobResponse;
 
 class PaymobCallbackController extends Controller
 {
@@ -47,7 +47,7 @@ class PaymobCallbackController extends Controller
     /**
      * Redirect to payment status.
      *
-     * @param  \ZedanLab\Paymob\Services\PaymobResponse|\ZedanLab\Paymob\Services\PaymobProcessed $response
+     * @param  \ZedanLab\Paymob\Services\Payments\PaymobResponse|\ZedanLab\Paymob\Services\Payments\PaymobProcessed $response
      * @param  bool                                                                               $status
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -55,7 +55,7 @@ class PaymobCallbackController extends Controller
     {
         $status = $status ? 'success' : 'failed';
 
-        return str($to = config('paymob.redirects.' . $status))->startsWith(['https://', 'http://'])
+        return str($to = config('paymob.payments.redirects.' . $status))->startsWith(['https://', 'http://'])
         ? redirect()->to($to)
         : redirect()->route($to);
     }

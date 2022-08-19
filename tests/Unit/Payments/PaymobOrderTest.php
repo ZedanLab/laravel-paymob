@@ -2,8 +2,8 @@
 
 use function Pest\Faker\faker;
 
-use ZedanLab\Paymob\Services\PaymobOrder;
-use ZedanLab\Paymob\Services\PaymobOrderItem;
+use ZedanLab\Paymob\Services\Payments\PaymobOrder;
+use ZedanLab\Paymob\Services\Payments\PaymobOrderItem;
 
 it('can set or get delivery_needed attribute', function () {
     $order = new PaymobOrder();

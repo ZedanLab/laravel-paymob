@@ -1,6 +1,6 @@
 <?php
 
-namespace ZedanLab\Paymob\Services;
+namespace ZedanLab\Paymob\Services\Payments;
 
 use Illuminate\Config\Repository;
 use ZedanLab\Paymob\Enums\PaymobTransactionStatus;
@@ -10,7 +10,7 @@ use ZedanLab\Paymob\Models\PaymobTransaction;
 class PaymobProcessed extends Repository
 {
     /**
-     * @var \ZedanLab\Paymob\Services\PaymobConfig
+     * @var \ZedanLab\Paymob\Services\Payments\PaymobConfig
      */
     protected $config;
 
@@ -18,7 +18,7 @@ class PaymobProcessed extends Repository
      * Create a new paymob response instance.
      *
      * @param  array                                  $response
-     * @param  \ZedanLab\Paymob\Services\PaymobConfig $config
+     * @param  \ZedanLab\Paymob\Services\Payments\PaymobConfig $config
      * @return void
      */
     public function __construct(array $response, PaymobConfig $config = null)

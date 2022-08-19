@@ -1,6 +1,6 @@
 <?php
 
-namespace ZedanLab\Paymob\Services;
+namespace ZedanLab\Paymob\Services\Payments;
 
 use Exception;
 use Illuminate\Config\Repository;
@@ -16,7 +16,7 @@ class PaymobConfig extends Repository
     public function __construct(array $items = [])
     {
         if (empty($items)) {
-            $items = config('paymob');
+            $items = config('paymob.payments');
         }
 
         parent::__construct($items);

@@ -3,13 +3,13 @@
 namespace ZedanLab\Paymob\PaymentMethods;
 
 use Exception;
-use ZedanLab\Paymob\Services\PaymobApi;
+use ZedanLab\Paymob\Services\Payments\PaymobApi;
 
 class PaymobPaymentMethod
 {
     /**
      * @param  string                                           $paymentMethod
-     * @param  \ZedanLab\Paymob\Services\PaymobApi              $api
+     * @param  \ZedanLab\Paymob\Services\Payments\PaymobApi              $api
      * @return \ZedanLab\Paymob\PaymentMethods\BasePaymentMethod
      */
     public static function driver(string $paymentMethod, PaymobApi $api): BasePaymentMethod

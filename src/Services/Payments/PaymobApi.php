@@ -1,6 +1,6 @@
 <?php
 
-namespace ZedanLab\Paymob\Services;
+namespace ZedanLab\Paymob\Services\Payments;
 
 use Exception;
 use Illuminate\Config\Repository;
@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Http;
 class PaymobApi extends Repository
 {
     /**
-     * @var \ZedanLab\Paymob\Services\PaymobOrder|null
+     * @var \ZedanLab\Paymob\Services\Payments\PaymobOrder|null
      */
     protected $order;
 
@@ -23,7 +23,7 @@ class PaymobApi extends Repository
     /**
      * Create a new paymob instance.
      *
-     * @param  \ZedanLab\Paymob\Services\PaymobOrder $order (optional)
+     * @param  \ZedanLab\Paymob\Services\Payments\PaymobOrder $order (optional)
      * @return void
      */
     public function __construct(?PaymobOrder $order = null)
@@ -183,7 +183,7 @@ class PaymobApi extends Repository
     /**
      * Set paymob order.
      *
-     * @param  \ZedanLab\Paymob\Services\PaymobOrder $order
+     * @param  \ZedanLab\Paymob\Services\Payments\PaymobOrder $order
      * @return self
      */
     public function setOrder(PaymobOrder $order): self
@@ -209,7 +209,7 @@ class PaymobApi extends Repository
     /**
      * Return current order.
      *
-     * @return \ZedanLab\Paymob\Services\PaymobOrder|null
+     * @return \ZedanLab\Paymob\Services\Payments\PaymobOrder|null
      */
     public function order(): ?PaymobOrder
     {

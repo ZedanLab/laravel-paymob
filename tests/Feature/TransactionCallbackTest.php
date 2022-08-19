@@ -25,7 +25,7 @@ it('can handle the transaction response callback', function () {
     $response = get(route('paymob.transaction.response', $data));
 
     $response->assertRedirect(
-        str($to = config('paymob.redirects.success'))->startsWith(['https://', 'http://'])
+        str($to = config('paymob.payments.redirects.success'))->startsWith(['https://', 'http://'])
         ? $to
         : route($to)
     );

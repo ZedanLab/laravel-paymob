@@ -19,13 +19,13 @@ class PaymobServiceProvider extends PackageServiceProvider
          */
         $package
             ->name('laravel-paymob')
-            ->hasMigrations('create_paymob_transactions_table')
+            ->hasMigrations('create_paymob_transactions_table', 'create_paymob_payouts_transactions_table')
             ->hasConfigFile();
     }
 
     public function packageRegistered()
     {
-        $config = $this->app->make('config')->get('paymob');
+        $config = $this->app->make('config')->get('paymob.payments');
 
         $this->app->bind('laravel-paymob', fn () => new Paymob($config));
     }
