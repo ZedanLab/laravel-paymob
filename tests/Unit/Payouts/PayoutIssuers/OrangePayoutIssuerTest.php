@@ -6,12 +6,12 @@ use ZedanLab\Paymob\PayoutIssuers\PaymobPayoutIssuer;
 it('can sets an amount', function () {
     fakeSuccessResponse();
 
-    $payoutIssuer = PaymobPayoutIssuer::driver('etisalat')
+    $payoutIssuer = PaymobPayoutIssuer::driver('orange')
         ->setAmount(300.50);
 
     expect($payoutIssuer->get('amount') == 300.50)->toBeTrue();
 
-    $payoutIssuer = PaymobPayoutIssuer::driver('etisalat');
+    $payoutIssuer = PaymobPayoutIssuer::driver('orange');
     $payoutIssuer->set('amount', 300.50);
 
     expect($payoutIssuer->get('amount') == 300.50)->toBeTrue();
@@ -20,21 +20,21 @@ it('can sets an amount', function () {
 it('can sets a msisdn', function () {
     fakeSuccessResponse();
 
-    $payoutIssuer = PaymobPayoutIssuer::driver('etisalat')
-        ->setMsisdn('01123456789');
+    $payoutIssuer = PaymobPayoutIssuer::driver('orange')
+        ->setMsisdn('01223456789');
 
-    expect($payoutIssuer->get('msisdn') == '01123456789')->toBeTrue();
+    expect($payoutIssuer->get('msisdn') == '01223456789')->toBeTrue();
 
-    $payoutIssuer = PaymobPayoutIssuer::driver('etisalat');
-    $payoutIssuer->setMsisdn('01123456789');
+    $payoutIssuer = PaymobPayoutIssuer::driver('orange');
+    $payoutIssuer->setMsisdn('01223456789');
 
-    expect($payoutIssuer->get('msisdn') == '01123456789')->toBeTrue();
+    expect($payoutIssuer->get('msisdn') == '01223456789')->toBeTrue();
 });
 
 it('throws exception if the given amount is invalid', function () {
     fakeSuccessResponse();
 
-    $payoutIssuer = PaymobPayoutIssuer::driver('etisalat');
+    $payoutIssuer = PaymobPayoutIssuer::driver('orange');
 
     $payoutIssuer->set('amount', 'invalid-amount');
 
@@ -44,20 +44,20 @@ it('throws exception if the given amount is invalid', function () {
 it('throws exception if the given msisdn is invalid', function () {
     fakeSuccessResponse();
 
-    $payoutIssuer = PaymobPayoutIssuer::driver('etisalat')
+    $payoutIssuer = PaymobPayoutIssuer::driver('orange')
         ->setAmount(100.00);
 
     $payoutIssuer->set('msisdn', 'invalid-msisdn');
 
     $payoutIssuer->validate();
-})->expectErrorMessage("Invalid msisdn, 'invalid-msisdn' given. ex. 01123456789");
+})->expectErrorMessage("Invalid msisdn, 'invalid-msisdn' given. ex. 01223456789");
 
 it('validates the given amount', function () {
     fakeSuccessResponse();
 
-    $payoutIssuer = PaymobPayoutIssuer::driver('etisalat')
+    $payoutIssuer = PaymobPayoutIssuer::driver('orange')
         ->setAmount(100.00)
-        ->setMsisdn('01123456789');
+        ->setMsisdn('01223456789');
 
     expect($payoutIssuer->validate())->toBeTrue();
 });
@@ -65,24 +65,24 @@ it('validates the given amount', function () {
 it('builds the disburse request data', function () {
     fakeSuccessResponse();
 
-    $disburseRequestData = PaymobPayoutIssuer::driver('etisalat')
+    $disburseRequestData = PaymobPayoutIssuer::driver('orange')
         ->setAmount(100.00)
-        ->setMsisdn('01123456789')
+        ->setMsisdn('01223456789')
         ->buildDisburseRequestData();
 
     expect($disburseRequestData === [
-        'issuer' => 'etisalat',
+        'issuer' => 'orange',
         'amount' => 100.00,
-        'msisdn' => '01123456789',
+        'msisdn' => '01223456789',
     ])->toBeTrue();
 });
 
 it('sends the disburse request', function () {
     fakeSuccessResponse();
 
-    $response = PaymobPayoutIssuer::driver('etisalat')
+    $response = PaymobPayoutIssuer::driver('orange')
         ->setAmount(100.00)
-        ->setMsisdn('01123456789')
+        ->setMsisdn('01223456789')
         ->disburse()
         ->getDisburseResponse();
 
@@ -92,9 +92,9 @@ it('sends the disburse request', function () {
 it('returns the disburse response as PaymobPayout model', function () {
     fakeSuccessResponse();
 
-    $paymobPayout = PaymobPayoutIssuer::driver('etisalat')
+    $paymobPayout = PaymobPayoutIssuer::driver('orange')
         ->setAmount(100.00)
-        ->setMsisdn('01123456789')
+        ->setMsisdn('01223456789')
         ->disburse()
         ->asPaymobPayout(['receiver_id' => 12345]);
 

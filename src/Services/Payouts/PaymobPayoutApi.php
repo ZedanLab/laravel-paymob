@@ -5,7 +5,6 @@ namespace ZedanLab\Paymob\Services\Payouts;
 use Illuminate\Config\Repository;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
-use stdClass;
 
 class PaymobPayoutApi extends Repository
 {
@@ -92,9 +91,9 @@ class PaymobPayoutApi extends Repository
      * @see https://stagingpayouts.paymobsolutions.com/docs/instant_cashin_api/
      *
      * @param  array      $data
-     * @return stdClass
+     * @return array
      */
-    public function sendDisburseRequest(array $data): stdClass
+    public function sendDisburseRequest(array $data): array
     {
         $response = Http::asJson()
             ->withToken($this->accessToken())
@@ -103,6 +102,6 @@ class PaymobPayoutApi extends Repository
                 throw $response->toException();
             });
 
-        return $response->object();
+        return $response->json();
     }
 }

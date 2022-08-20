@@ -4,7 +4,6 @@ namespace ZedanLab\Paymob\PayoutIssuers;
 
 use Exception;
 use Illuminate\Config\Repository;
-use stdClass;
 use ZedanLab\Paymob\Contracts\PaymobPayoutIssuer;
 use ZedanLab\Paymob\Enums\PaymobPayoutStatus;
 use ZedanLab\Paymob\Models\PaymobPayout;
@@ -41,9 +40,9 @@ abstract class BasePayoutIssuer extends Repository implements PaymobPayoutIssuer
     /**
      * Retrieve the disburse response.
      *
-     * @return \stdClass|null
+     * @return array|null
      */
-    public function getDisburseResponse(): ?stdClass
+    public function getDisburseResponse(): ?array
     {
         return $this->get('disburse_response');
     }

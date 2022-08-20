@@ -86,7 +86,7 @@ it('sends the disburse request', function () {
         ->disburse()
         ->getDisburseResponse();
 
-    expect($response instanceof stdClass)->toBeTrue();
+    expect(is_array($response))->toBeTrue();
 });
 
 it('returns the disburse response as PaymobPayout model', function () {

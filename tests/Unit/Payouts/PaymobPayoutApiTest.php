@@ -23,5 +23,5 @@ it('sends a disburse request', function () {
             'msisdn' => '01023456789',
         ]);
 
-    expect(is_object($response))->toBeTrue();
+    expect(is_array($response))->toBeTrue();
 });
