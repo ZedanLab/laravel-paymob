@@ -31,7 +31,7 @@ class PaymobPayout extends Model
      *
      * @var string
      */
-    protected $table = 'paymob_payouts';
+    protected $table = 'paymob_payouts_transactions';
 
     /**
      * The attributes that are mass assignable.
@@ -58,7 +58,7 @@ class PaymobPayout extends Model
         'data' => 'object',
         'callback' => 'object',
         'status' => PaymobPayoutStatus::class,
-        'type' => PaymobPayoutIssuer::class,
+        'issuer' => PaymobPayoutIssuer::class,
     ];
 
     /**

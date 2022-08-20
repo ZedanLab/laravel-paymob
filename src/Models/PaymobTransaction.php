@@ -13,8 +13,8 @@ use ZedanLab\Paymob\Enums\PaymobTransactionType;
  * @property int $paymob_id
  * @property string $hmac
  * @property object $data
- * @property string $status
- * @property string $type
+ * @property string|PaymobTransactionStatus $status
+ * @property string|PaymobTransactionType $type
  * @property int|null $payer_id
  * @property string|null $payer_type
  * @property int|null $payable_id
