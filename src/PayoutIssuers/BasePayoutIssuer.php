@@ -13,6 +13,9 @@ use ZedanLab\Paymob\Services\Payouts\PaymobPayoutApi;
  * ZedanLab\Paymob\PayoutIssuers\BasePayoutIssuer
  *
  * @method \ZedanLab\Paymob\PayoutIssuers\BasePayoutIssuer setMsisdn(string $msisdn)
+ * @method \ZedanLab\Paymob\PayoutIssuers\BasePayoutIssuer setFirstName(string $firstName)
+ * @method \ZedanLab\Paymob\PayoutIssuers\BasePayoutIssuer setLastName(string $lastName)
+ * @method \ZedanLab\Paymob\PayoutIssuers\BasePayoutIssuer setEmail(string $email)
  */
 abstract class BasePayoutIssuer extends Repository implements PaymobPayoutIssuer
 {
