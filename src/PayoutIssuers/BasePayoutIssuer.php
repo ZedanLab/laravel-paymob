@@ -4,9 +4,9 @@ namespace ZedanLab\Paymob\PayoutIssuers;
 
 use Exception;
 use Illuminate\Config\Repository;
-use ZedanLab\Paymob\Contracts\PaymobPayoutIssuer;
-use ZedanLab\Paymob\Enums\PaymobPayoutStatus;
 use ZedanLab\Paymob\Models\PaymobPayout;
+use ZedanLab\Paymob\Enums\PaymobPayoutStatus;
+use ZedanLab\Paymob\Contracts\PaymobPayoutIssuer;
 use ZedanLab\Paymob\Services\Payouts\PaymobPayoutApi;
 
 /**
@@ -15,6 +15,10 @@ use ZedanLab\Paymob\Services\Payouts\PaymobPayoutApi;
  * @method \ZedanLab\Paymob\PayoutIssuers\BasePayoutIssuer setMsisdn(string $msisdn)
  * @method \ZedanLab\Paymob\PayoutIssuers\BasePayoutIssuer setFirstName(string $firstName)
  * @method \ZedanLab\Paymob\PayoutIssuers\BasePayoutIssuer setLastName(string $lastName)
+ * @method \ZedanLab\Paymob\PayoutIssuers\BasePayoutIssuer setFullName(string $fullName)
+ * @method \ZedanLab\Paymob\PayoutIssuers\BasePayoutIssuer setBankCardNumber(string $bankCardNumber)
+ * @method \ZedanLab\Paymob\PayoutIssuers\BasePayoutIssuer setBankCode(string $bankCode)
+ * @method \ZedanLab\Paymob\PayoutIssuers\BasePayoutIssuer setBankTransactionType(string $bankTransactionType)
  * @method \ZedanLab\Paymob\PayoutIssuers\BasePayoutIssuer setEmail(string $email)
  */
 abstract class BasePayoutIssuer extends Repository implements PaymobPayoutIssuer
@@ -82,7 +86,7 @@ abstract class BasePayoutIssuer extends Repository implements PaymobPayoutIssuer
     {
         throw_if(
             is_null($amount = $this->get('amount'))
-            || ! is_numeric($amount),
+            || !is_numeric($amount),
             new Exception("Invalid amount, '{$amount}' given instead of float.")
         );
 
@@ -115,13 +119,13 @@ abstract class BasePayoutIssuer extends Repository implements PaymobPayoutIssuer
     {
         $data = [
             'transaction_id' => $this->get('disburse_response.transaction_id'),
-            'amount' => $this->get('disburse_response.amount'),
-            'issuer' => $this->get('disburse_response.issuer'),
-            'status' => in_array($status = $this->get('disburse_response.disbursement_status'), ['success', 'successful']) ? PaymobPayoutStatus::SUCCESS : $status,
-            'data' => $this->get('disburse_response'),
-            'callback' => null,
-            'receiver_id' => null,
-            'receiver_type' => null,
+            'amount'         => $this->get('disburse_response.amount'),
+            'issuer'         => $this->get('disburse_response.issuer'),
+            'status'         => in_array($status = $this->get('disburse_response.disbursement_status'), ['success', 'successful']) ? PaymobPayoutStatus::SUCCESS : $status,
+            'data'           => $this->get('disburse_response'),
+            'callback'       => null,
+            'receiver_id'    => null,
+            'receiver_type'  => null,
         ];
 
         return new PaymobPayout(array_merge($data, $attriibutes));
