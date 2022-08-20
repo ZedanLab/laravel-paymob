@@ -158,11 +158,11 @@ it('builds the disburse request data', function () {
         ->buildDisburseRequestData();
 
     expect($disburseRequestData === [
-        'issuer'                => 'bank_card',
-        'amount'                => 100.00,
-        'full_name'             => 'Mohamed A. Zedan',
-        'bank_card_number'      => '1111-2222-3333-4444',
-        'bank_code'             => 'CIB',
+        'issuer' => 'bank_card',
+        'amount' => 100.00,
+        'full_name' => 'Mohamed A. Zedan',
+        'bank_card_number' => '1111-2222-3333-4444',
+        'bank_code' => 'CIB',
         'bank_transaction_type' => 'cash_transfer',
     ])->toBeTrue();
 });

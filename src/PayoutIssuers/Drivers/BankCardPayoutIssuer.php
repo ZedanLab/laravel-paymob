@@ -9,7 +9,7 @@ use ZedanLab\Paymob\PayoutIssuers\BasePayoutIssuer;
 
 class BankCardPayoutIssuer extends BasePayoutIssuer
 {
-    const ALLOWED_BANK_CODES = [
+    public const ALLOWED_BANK_CODES = [
         'AUB',
         'CITI',
         'MIDB',
@@ -54,7 +54,7 @@ class BankCardPayoutIssuer extends BasePayoutIssuer
         'BBE',
     ];
 
-    const ALLOWED_BANK_TRANSACTION_TYPES = [
+    public const ALLOWED_BANK_TRANSACTION_TYPES = [
         'salary',
         'credit_card',
         'prepaid_card',
@@ -123,11 +123,11 @@ class BankCardPayoutIssuer extends BasePayoutIssuer
         $this->validate();
 
         return [
-            'issuer'                => 'bank_card',
-            'amount'                => $this->get('amount'),
-            'full_name'             => $this->get('full_name'),
-            'bank_card_number'      => $this->get('bank_card_number'),
-            'bank_code'             => $this->get('bank_code'),
+            'issuer' => 'bank_card',
+            'amount' => $this->get('amount'),
+            'full_name' => $this->get('full_name'),
+            'bank_card_number' => $this->get('bank_card_number'),
+            'bank_code' => $this->get('bank_code'),
             'bank_transaction_type' => $this->get('bank_transaction_type'),
         ];
     }
@@ -143,28 +143,28 @@ class BankCardPayoutIssuer extends BasePayoutIssuer
 
         throw_if(
             is_null($fullName = $this->get('full_name'))
-            || !is_string($fullName),
+            || ! is_string($fullName),
             new Exception("Invalid full_name, '{$fullName}' given.")
         );
 
         throw_if(
             is_null($bankCardNumber = $this->get('bank_card_number'))
-            || !is_string($bankCardNumber)
-            || (!$this->isIban($bankCardNumber) && !$this->isBankCard($bankCardNumber)),
+            || ! is_string($bankCardNumber)
+            || (! $this->isIban($bankCardNumber) && ! $this->isBankCard($bankCardNumber)),
             new Exception("Invalid bank_card_number, '{$bankCardNumber}' given. ex. 1111-2222-3333-4444, EG829299835722904511873050307")
         );
 
         throw_if(
             is_null($bankCode = $this->get('bank_code'))
-            || !is_string($bankCode)
-            || !$this->isBankCode($bankCode),
+            || ! is_string($bankCode)
+            || ! $this->isBankCode($bankCode),
             new Exception("Invalid bank_code, '{$bankCode}' given. ex. " . implode(', ', static::ALLOWED_BANK_CODES))
         );
 
         throw_if(
             is_null($bankTransactionType = $this->get('bank_transaction_type'))
-            || !is_string($bankTransactionType)
-            || !$this->isBankTransactionType($bankTransactionType),
+            || ! is_string($bankTransactionType)
+            || ! $this->isBankTransactionType($bankTransactionType),
             new Exception("Invalid bank_transaction_type, '{$bankTransactionType}' given. ex. " . implode(', ', static::ALLOWED_BANK_TRANSACTION_TYPES))
         );
 
